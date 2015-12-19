@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "messagize_root",
+    "password": "6YudD7qdF6XuZkxz",
+    "database": "autolib",
+    "host": "messagize-dev.cr7u7kcwfvyb.eu-central-1.rds.amazonaws.com",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "SECRET_WEB_TOKEN" : "$w$789#48$$(_@0c)!9*td90w+ss4fql4(yaa+f)wy@&#*ojdf"
+}
