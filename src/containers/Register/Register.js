@@ -10,7 +10,7 @@ import {register, STATE} from 'redux/modules/register';
 import {bsStyle} from 'utils/bsValidator.js';
 import validator from './validator/RegisterValidator';
 import ERROR_CODE from 'utils/ERROR_CODE.js';
-import transformSequelizeValidationError from 'utils/front-utils.js';
+import {transformSequelizeValidationError} from 'utils/front-utils.js';
 
 @reduxForm({
   form: 'register',
@@ -40,11 +40,12 @@ export default class Register extends Component {
             this.props.pushState(null, '/login');
             resolve();
           } else if (STATE.REGISTER_FAIL === body.type) {
-            console.log(body);
-            if (body.message === ERROR_CODE.SEQUELIZE_VALIDATION_ERROR) {
-              reject(transformSequelizeValidationError(body.errors.errors));
+            if (body.error.message === ERROR_CODE.SEQUELIZE_VALIDATION_ERROR) {
+              console.log(body.error);
+              const data = transformSequelizeValidationError(body.error.errors);
+              console.log(data);
+              reject(data);
             }
-            reject(body.result.errors);
           }
         });
     });
@@ -66,36 +67,32 @@ export default class Register extends Component {
               <Input
                 type="email"
                 placeholder="Entrer votre email"
+                help={fields.email.error}
                 hasFeedback
-                className = "flat"
                 {...fields.email}
                 bsStyle={bsStyle(fields.email)}/>
               <Input
                 type="text"
                 placeholder="Entrer votre nom"
                 hasFeedback
-                className = "flat"
                 bsStyle={bsStyle(fields.first_name)}
                 {...fields.first_name}/>
               <Input
                 type="text"
                 placeholder="Enter votre prénom"
                 hasFeedback
-                className = "flat"
                 bsStyle={bsStyle(fields.last_name)}
                 {...fields.last_name}/>
               <Input
                 type="password"
                 placeholder="Entrer votre mot de passe"
                 hasFeedback
-                className = "flat"
                 {...fields.password}
                 bsStyle={bsStyle(fields.password)}/>
               <Input
                 type="password"
                 placeholder="Entrer votre mot de passe"
                 hasFeedback
-                className = "flat"
                 {...fields.confirmPassword}
                 bsStyle={bsStyle(fields.confirmPassword)}/>
 

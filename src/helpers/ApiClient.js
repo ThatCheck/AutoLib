@@ -1,6 +1,6 @@
 import superagent from 'superagent';
 import config from '../config';
-
+import cookie from 'react-cookie';
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
 function formatUrl(path) {
@@ -24,6 +24,10 @@ class _ApiClient {
     methods.forEach((method) =>
       this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path));
+
+        if (cookie && cookie.load('user')) {
+          request.set('authorization', 'Bearer ' + cookie.load('user').token);
+        }
 
         if (params) {
           request.query(params);

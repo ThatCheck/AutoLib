@@ -1,12 +1,15 @@
-const LOAD = 'redux-example/auth/LOAD';
-const LOAD_SUCCESS = 'redux-example/auth/LOAD_SUCCESS';
-const LOAD_FAIL = 'redux-example/auth/LOAD_FAIL';
-const LOGIN = 'redux-example/auth/LOGIN';
-const LOGIN_SUCCESS = 'redux-example/auth/LOGIN_SUCCESS';
-const LOGIN_FAIL = 'redux-example/auth/LOGIN_FAIL';
-const LOGOUT = 'redux-example/auth/LOGOUT';
-const LOGOUT_SUCCESS = 'redux-example/auth/LOGOUT_SUCCESS';
-const LOGOUT_FAIL = 'redux-example/auth/LOGOUT_FAIL';
+import cookie from 'react-cookie';
+
+const LOAD = '@@autolib/auth/LOAD';
+const LOAD_SUCCESS = '@@autolib/auth/LOAD_SUCCESS';
+const LOAD_FAIL = '@@autolib/auth/LOAD_FAIL';
+const LOGIN = '@@autolib/auth/LOGIN';
+const LOGIN_SUCCESS = '@@autolib/auth/LOGIN_SUCCESS';
+const LOGIN_FAIL = '@@autolib/auth/LOGIN_FAIL';
+const LOGOUT = '@@autolib/auth/LOGOUT';
+const LOGOUT_SUCCESS = '@@autolib/auth/LOGOUT_SUCCESS';
+const LOGOUT_FAIL = '@@autolib/auth/LOGOUT_FAIL';
+const LOAD_AUTH_COOKIE = '@@autolib/auth/LOAD_AUTH_COOKIE';
 
 const initialState = {
   loaded: false
@@ -39,6 +42,7 @@ export default function reducer(state = initialState, action = {}) {
         loggingIn: true
       };
     case LOGIN_SUCCESS:
+      cookie.save('user', action.result);
       return {
         ...state,
         loggingIn: false,
@@ -55,6 +59,13 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loggingOut: true
+      };
+    case LOAD_AUTH_COOKIE:
+      const cookieData = cookie.load('user');
+      const user = cookieData ? cookieData.user : null;
+      return {
+        ...state,
+        user
       };
     case LOGOUT_SUCCESS:
       return {
@@ -77,19 +88,26 @@ export function isLoaded(globalState) {
   return globalState.auth && globalState.auth.loaded;
 }
 
-export function load() {
+export function loadAuthCookie() {
   return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/loadAuth')
+    type: LOAD_AUTH_COOKIE
   };
 }
 
-export function login(name) {
+export function load() {
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    promise: (client) => client.get('/users/' + cookie.load('user').user.id)
+  };
+}
+
+export function login(email, password) {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
     promise: (client) => client.post('/login', {
       data: {
-        name: name
+        email: email,
+        password: password
       }
     })
   };

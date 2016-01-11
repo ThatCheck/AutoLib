@@ -53,7 +53,14 @@ module.exports = {
       'webpack-hot-middleware/client?path=http://' + host + ':' + port + '/__webpack_hmr',
       'bootstrap-sass!./src/theme/bootstrap.config.js',
       'font-awesome-webpack!./src/theme/font-awesome.config.js',
-      './src/client.js'
+      'style!css!./node_modules/ladda/dist/ladda-themeless.min.css',
+      'style!css!./node_modules/animate.css/animate.min.css',
+      'style!css!./node_modules/metismenu/dist/metisMenu.min.css',
+      './node_modules/jquery/dist/jquery.js',
+      './node_modules/metismenu/dist/metisMenu.js',
+      './src/theme/autolib.js',
+      './src/client.js',
+
     ]
   },
   output: {
@@ -93,6 +100,10 @@ module.exports = {
       __SERVER__: false,
       __DEVELOPMENT__: true,
       __DEVTOOLS__: true  // <-------- DISABLE redux-devtools HERE
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
     }),
     webpackIsomorphicToolsPlugin.development()
   ]

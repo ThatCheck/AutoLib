@@ -1,11 +1,11 @@
 export const STATE = {
-  CHANGE_STEP: '@@messagize/register/LOAD',
-  VERIFY_MAIL: '@@messagize/register/VERIFY_EMAIL',
-  VERIFY_MAIL_SUCCESS: '@@messagize/register/VERIFY_EMAIL_SUCCESS',
-  VERIFY_MAIL_FAIL: '@@messagize/register/VERIFY_EMAIL_FAIL',
-  REGISTER: '@@messagize/register/REGISTER',
-  REGISTER_SUCCESS: '@@messagize/register/REGISTER_SUCCESS',
-  REGISTER_FAIL: '@@messagize/register/REGISTER_FAIL'
+  CHANGE_STEP: '@@autolib/register/LOAD',
+  VERIFY_MAIL: '@@autolib/register/VERIFY_EMAIL',
+  VERIFY_MAIL_SUCCESS: '@@autolib/register/VERIFY_EMAIL_SUCCESS',
+  VERIFY_MAIL_FAIL: '@@autolib/register/VERIFY_EMAIL_FAIL',
+  REGISTER: '@@autolib/register/REGISTER',
+  REGISTER_SUCCESS: '@@autolib/register/REGISTER_SUCCESS',
+  REGISTER_FAIL: '@@autolib/register/REGISTER_FAIL'
 };
 
 const initialState = {

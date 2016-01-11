@@ -10,32 +10,41 @@ const UserController = {
     * configure Rest Service
     * @param epilogue
      */
-    configureRestService : function(epilogue){
+  configureRestService: function configure(epilogue) {
 
-      var userResource = epilogue.resource({
-        model: db.User,
-        endpoints: ['/users', '/users/:id']
-      });
+    const userResource = epilogue.resource({
+      model: db.User,
+      endpoints: ['/users', '/users/:id']
+    });
 
       /**
        * Add validation on creation
        */
-      userResource.create.start(function(req, res, context) {
-        const data = {
-          email: req.body.email,
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          password: req.body.password,
-          confirm_password: req.body.confirm_password,
-        };
-        const result = validator(data, createUserValidator, res);
-        if(result !== undefined){
-          context.error(new epilogueErrors.Errors.BadRequestError("Malformed User Entity", result));
-        }else{
-          context.continue();
-        }
-      });
-    }
+    userResource.create.start(function start(req, res, context) {
+      const data = {
+        email: req.body.email,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        password: req.body.password,
+        confirm_password: req.body.confirm_password,
+      };
+      const result = validator(data, createUserValidator, res);
+      if (result !== undefined) {
+        context.error(new epilogueErrors.Errors.BadRequestError('Malformed User Entity', result));
+      }else {
+        context.continue();
+      }
+    });
+  },
+
+  login: wrap(async function login(req, res) {
+    const obj = {
+      token: req.user.token,
+      user: req.user
+    };
+    res.status(HTTP_CODE.OK).json(obj);
+  })
+
 };
 
 export default UserController;

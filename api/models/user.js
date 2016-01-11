@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt';
-export default function(sequelize, DataTypes) {
+import lodash from 'lodash';
+
+export default function model(sequelize, DataTypes) {
   const User = sequelize.define('User', {
-    id : {
+    id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
@@ -13,15 +15,15 @@ export default function(sequelize, DataTypes) {
       allowNull: false
     },
     password: {
-      type : DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
     first_name: {
-      type : DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
     last_name: {
-      type : DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
   }, {
@@ -34,6 +36,10 @@ export default function(sequelize, DataTypes) {
       comparePassword: function(password, callback) {
         const match = bcrypt.compareSync(password, this.password);
         callback(null, match);
+      },
+      toJSON: function() {
+        const privateAttributes = [ 'password' ];
+        return lodash.omit(this.dataValues, privateAttributes);
       }
     }
 

@@ -12,7 +12,7 @@ import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
-
+import cookie from 'react-cookie';
 import {ReduxRouter} from 'redux-router';
 import createHistory from 'history/lib/createMemoryHistory';
 import {reduxReactRouter, match} from 'redux-router/server';
@@ -54,6 +54,7 @@ proxy.on('error', (error, req, res) => {
 });
 
 app.use((req, res) => {
+  cookie.plugToRequest(req, res);
   if (__DEVELOPMENT__) {
     // Do not cache webpack stats: the script file would change since
     // hot module replacement is enabled in the development env
