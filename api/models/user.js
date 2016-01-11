@@ -1,10 +1,29 @@
 import bcrypt from 'bcrypt';
 export default function(sequelize, DataTypes) {
   const User = sequelize.define('User', {
-    email: { type: DataTypes.STRING, unique: true },
-    password: DataTypes.STRING,
-    first_name: DataTypes.STRING,
-    last_name: DataTypes.STRING
+    id : {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
+    },
+    password: {
+      type : DataTypes.STRING,
+      allowNull: false
+    },
+    first_name: {
+      type : DataTypes.STRING,
+      allowNull: false
+    },
+    last_name: {
+      type : DataTypes.STRING,
+      allowNull: false
+    },
   }, {
     classMethods: {
       associate: function(models) {

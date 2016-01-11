@@ -6,14 +6,15 @@ import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
 import passport from 'passport';
-import pass from 'config/passport';
+import pass from 'config/passport.js';
 import db from 'models/index';
 import i18n from 'i18n';
 import morgan from 'morgan';
 import routes from 'routes/index.js';
 import validate from 'validate.js';
 import i18n_middleware from 'middleware/i18n_middleware';
-
+import epilogue from 'epilogue';
+import * as Controller from 'controllers/index.js';
 validate.validators.presence.options = {
   message: 'VALIDATEJS.ERROR.REQUIRED'
 };
@@ -35,7 +36,6 @@ io.path('/ws');
 /**
  * Configure i18n
  */
-
 i18n.configure({
   locales: ['en', 'fr'],
   directory: __dirname + '/locales'
@@ -46,6 +46,17 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(i18n.init);
 app.use(morgan('dev'));
+
+/**
+ * Init the epilogue routing
+ */
+
+epilogue.initialize({
+  app: app,
+  sequelize: db.sequelize
+});
+
+Controller.UserController.configureRestService(epilogue);
 
 /**
  * INIT the routing application

@@ -3,6 +3,8 @@ import {IndexRoute, Route} from 'react-router';
 import {
     App,
     Home,
+    Login,
+    Register
   } from 'containers';
 
 export default (store) => {
@@ -12,8 +14,9 @@ export default (store) => {
    */
   return (
     <Route path="/" component={App}>
-      { /* Home (main) route */ }
       <IndexRoute component={Home}/>
+      <Route path="/login" component={Login}/>
+      <Route path="/register" component={Register}/>
     </Route>
   );
 };

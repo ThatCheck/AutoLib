@@ -1,1 +1,5 @@
-{}
+{
+	"VALIDATEJS.ERROR.REQUIRED": "VALIDATEJS.ERROR.REQUIRED",
+	"is not a valid email": "is not a valid email",
+	"is not equal to password": "is not equal to password"
+}

@@ -29,9 +29,9 @@ export default class App extends Component {
   render() {
     const styles = require('./App.scss');
     return (
-      <div className={styles.app}>
+      <div>
         <DocumentMeta {...config.app}/>
-        <div className={styles.appContent}>
+        <div>
           {this.props.children}
         </div>
       </div>
