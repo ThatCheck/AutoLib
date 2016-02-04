@@ -7,7 +7,10 @@ import {
     Login,
     Register,
     Dashboard,
-    HomeDashboard
+    HomeDashboard,
+    DatatableClient,
+    ShowClient,
+    Map
   } from 'containers';
 
 export default (store) => {
@@ -36,6 +39,9 @@ export default (store) => {
     <Route path="/" component={App}>
       <Route path="/dashboard" onEnter={requireLogin} component={Dashboard}>
         <IndexRoute component={HomeDashboard}/>
+        <Route path="clients" component={DatatableClient}/>
+        <Route path="clients/:userId" component={ShowClient}/>
+        <Route path="map" component={Map}/>
       </Route>
       <IndexRoute component={Home}/>
       <Route path="/login" component={Login}/>

@@ -12,7 +12,8 @@ import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
-import cookie from 'react-cookie';
+import cookie from 'react-cookie';import {IntlProvider} from 'react-intl';
+import { intlDataHash, getCurrentLocale } from './utils/intl';
 import {ReduxRouter} from 'redux-router';
 import createHistory from 'history/lib/createMemoryHistory';
 import {reduxReactRouter, match} from 'redux-router/server';
@@ -21,6 +22,30 @@ import qs from 'query-string';
 import getRoutes from './routes';
 import getStatusFromRoutes from './helpers/getStatusFromRoutes';
 
+/**
+ * Flatten the message locales
+ * @param ob
+ * @returns {*}
+ */
+function flattenMessages(ob) {
+  const toReturn = {};
+
+  for (let i in ob) {
+    if (!ob.hasOwnProperty(i)) continue;
+    if (typeof ob[i] === 'object') {
+      const flatObject = flattenMessages(ob[i]);
+      for (let x in flatObject) {
+        if (!flatObject.hasOwnProperty(x)) continue;
+
+        toReturn[i + '.' + x] = flatObject[x];
+      }
+    } else {
+      toReturn[i] = ob[i];
+    }
+  }
+  return toReturn;
+}
+
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
@@ -28,6 +53,24 @@ const proxy = httpProxy.createProxyServer({
   target: 'http://' + config.apiHost + ':' + config.apiPort,
   ws: true
 });
+
+var areIntlLocalesSupported = require('intl-locales-supported');
+
+var localesMyAppSupports = config.locales;
+
+if (global.Intl) {
+  // Determine if the built-in `Intl` has the locale data we need.
+  if (!areIntlLocalesSupported(localesMyAppSupports)) {
+    // `Intl` exists, but it doesn't have the data we need, so load the
+    // polyfill and replace the constructors with need with the polyfill's.
+    require('intl');
+    Intl.NumberFormat = IntlPolyfill.NumberFormat;
+    Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  }
+} else {
+  // No `Intl`, so use and load the polyfill.
+  global.Intl = require('intl');
+}
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
@@ -60,13 +103,20 @@ app.use((req, res) => {
     // hot module replacement is enabled in the development env
     webpackIsomorphicTools.refresh();
   }
+
+  const lang = cookie.load('locale') || 'fr';
+  const localeFromRoute = getCurrentLocale(lang);
+  const locale = intlDataHash[localeFromRoute].locale;
+  const localeFileName = intlDataHash[localeFromRoute].file;
+  const localeMessages = flattenMessages(require(`./intl/${localeFromRoute}`));
+  const localeData = require(`react-intl/dist/locale-data/${localeFileName}`);
   const client = new ApiClient(req);
 
   const store = createStore(reduxReactRouter, getRoutes, createHistory, client);
 
   function hydrateOnClient() {
     res.send('<!doctype html>\n' +
-      ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>));
+      ReactDOM.renderToString(<Html locale={locale} localeData={localeData} localeMessages={localeMessages} assets={webpackIsomorphicTools.assets()} store={store}/>));
   }
 
   if (__DISABLE_SSR__) {
@@ -94,7 +144,9 @@ app.use((req, res) => {
       store.getState().router.then(() => {
         const component = (
           <Provider store={store} key="provider">
-            <ReduxRouter/>
+            <IntlProvider locale={locale} messages={localeMessages}>
+              <ReduxRouter/>
+            </IntlProvider>
           </Provider>
         );
 
@@ -103,7 +155,7 @@ app.use((req, res) => {
           res.status(status);
         }
         res.send('<!doctype html>\n' +
-          ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
+          ReactDOM.renderToString(<Html locale={locale} localeData={localeData} localeMessages={localeMessages} assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
       }).catch((err) => {
         console.error('DATA FETCHING ERROR:', pretty.render(err));
         res.status(500);

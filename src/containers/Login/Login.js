@@ -53,7 +53,7 @@ export default class Login extends Component {
         <div className="middle-box text-center loginscreen animated fadeInDown">
           <div>
             <div>
-              <h1 className="logo-name">A+</h1>
+              <h1 className="logo-name">A</h1>
             </div>
             <h3>Bienvenue sur AutoLib+</h3>
             <p>Vous êtes à deux pas de profiter un maximun de l'expérience autolib

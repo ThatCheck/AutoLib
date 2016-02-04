@@ -3565,6 +3565,18 @@ body.body-small .footer.fixed {
   border-top: none;
   border-bottom: none;
 }
+.border-top {
+  border-left: none;
+  border-right: none;
+  border-top: 1px solid #e7eaec;
+  border-bottom: none;
+}
+.border-bottom {
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: 1px solid #e7eaec;
+}
 .border-right {
   border-left: none;
   border-right: 1px solid #e7eaec;

@@ -15,6 +15,8 @@ import validate from 'validate.js';
 import i18n_middleware from 'middleware/i18n_middleware';
 import epilogue from 'epilogue';
 import * as Controller from 'controllers/index.js';
+import redis from 'redis';
+
 validate.validators.presence.options = {
   message: 'VALIDATEJS.ERROR.REQUIRED'
 };
@@ -23,8 +25,6 @@ validate.options = {fullMessages: false};
 /**
  * Sync the DB
  */
-db.sequelize.sync();
-
 const pretty = new PrettyError();
 const app = express();
 
@@ -57,6 +57,12 @@ epilogue.initialize({
 });
 
 Controller.UserController.configureRestService(epilogue);
+Controller.BookingController.configureRestService(epilogue);
+Controller.ClientController.configureRestService(epilogue);
+Controller.UseController.configureRestService(epilogue);
+Controller.BorneController.configureRestService(epilogue);
+Controller.StationController.configureRestService(epilogue);
+Controller.CarController.configureRestService(epilogue);
 
 /**
  * INIT the routing application
@@ -71,7 +77,7 @@ app.use(i18n_middleware);
 const bufferSize = 100;
 const messageBuffer = new Array(bufferSize);
 let messageIndex = 0;
-
+const redisSubscriber = redis.createClient('redis://h:p7t49qfsfg19efbkv4aphbq4q9a@ec2-54-235-147-98.compute-1.amazonaws.com:23889');
 /**
  * Launch Server
  */
@@ -85,6 +91,16 @@ if (config.apiPort) {
   });
 
   io.on('connection', (socket) => {
+
+    redisSubscriber.subscribe('car_status');
+
+    const callback = (channel, data) => {
+      console.log('EMIT in car status channel');
+      socket.emit('car_status', data);
+    };
+
+    redisSubscriber.on('message', callback);
+
     socket.emit('news', {msg: `'Hello World!' from server`});
 
     socket.on('history', () => {

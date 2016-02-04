@@ -22,5 +22,7 @@ module.exports = Object.assign({
       property: {
       }
     }
-  }
+  },
+  locale: 'fr',
+  locales: ['en', 'fr']
 }, environment);

@@ -1,5 +1,16 @@
-import UserController from './user.js'
-
+import UserController from './user.js';
+import BookingController from './booking';
+import ClientController from './client';
+import UseController from './use';
+import BorneController from './borne';
+import StationController from './station';
+import CarController from './car';
 export default {
-  UserController
-}
+  UserController,
+  BookingController,
+  ClientController,
+  UseController,
+  BorneController,
+  StationController,
+  CarController
+};

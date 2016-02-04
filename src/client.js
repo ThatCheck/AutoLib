@@ -14,6 +14,7 @@ import {reduxReactRouter, ReduxRouter} from 'redux-router';
 
 import getRoutes from './routes';
 import makeRouteHooksSafe from './helpers/makeRouteHooksSafe';
+import {addLocaleData, IntlProvider} from 'react-intl';
 
 const client = new ApiClient();
 
@@ -23,7 +24,7 @@ const scrollableHistory = useScroll(createHistory);
 
 const dest = document.getElementById('content');
 const store = createStore(reduxReactRouter, makeRouteHooksSafe(getRoutes), scrollableHistory, client, window.__data);
-
+const {locale, localeData, localeMessages} = window.__I18n;
 function initSocket() {
   const socket = io('', {path: '/api/ws', transports: ['polling']});
   socket.on('news', (data) => {
@@ -45,7 +46,9 @@ const component = (
 
 ReactDOM.render(
   <Provider store={store} key="provider">
-    {component}
+    <IntlProvider locale={locale} messages={localeMessages}>
+      {component}
+    </IntlProvider>
   </Provider>,
   dest
 );
@@ -62,10 +65,12 @@ if (__DEVTOOLS__ && !window.devToolsExtension) {
   const DevTools = require('./containers/DevTools/DevTools');
   ReactDOM.render(
     <Provider store={store} key="provider">
-      <div>
-        {component}
-        <DevTools />
-      </div>
+      <IntlProvider locale={locale} messages={localeMessages}>
+        <div>
+            {component}
+          <DevTools />
+        </div>
+      </IntlProvider>
     </Provider>,
     dest
   );

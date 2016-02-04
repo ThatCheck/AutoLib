@@ -16,15 +16,18 @@ export default class Html extends Component {
   static propTypes = {
     assets: PropTypes.object,
     component: PropTypes.node,
-    store: PropTypes.object
+    store: PropTypes.object,
+    locale: PropTypes.string,
+    localeData: PropTypes.array,
+    localeMessages: PropTypes.object
   }
 
   render() {
-    const {assets, component, store} = this.props;
+    const {assets, component, store, locale, localeData, localeMessages} = this.props;
     const content = component ? ReactDOM.renderToString(component) : '';
-
+    const data = { locale, localeData, localeMessages};
     return (
-      <html lang="en-us">
+      <html lang={locale}>
         <head>
           {DocumentMeta.renderAsReact()}
 
@@ -44,7 +47,7 @@ export default class Html extends Component {
         </head>
         <body>
           <div id="content" dangerouslySetInnerHTML={{__html: content}}/>
-          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(store.getState())};`}} charSet="UTF-8"/>
+          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(store.getState())};window.__I18n=${serialize(data)};`}} charSet="UTF-8"/>
           <script src={assets.javascript.main} charSet="UTF-8"/>
         </body>
       </html>

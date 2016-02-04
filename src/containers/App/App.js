@@ -11,6 +11,7 @@ import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
 import {loadAuthCookie} from 'redux/modules/auth';
+import intlUtils from 'utils/intl';
 
 function fetchData(getState, dispatch) {
   bindActionCreators({loadAuthCookie}, dispatch).loadAuthCookie();
@@ -29,6 +30,26 @@ export default class App extends Component {
     store: PropTypes.object.isRequired
   };
 
+  static childContextTypes = {
+    locales: PropTypes.array.isRequired,
+    currentLocale: PropTypes.string.isRequired
+  };
+
+  constructor() {
+    super();
+    this.state = {
+      currentLocale: intlUtils.getCurrentLocale()
+    };
+  }
+
+  getChildContext() {
+    const {currentLocale} = this.state;
+
+    return {
+      locales: config.locales,
+      currentLocale: currentLocale
+    };
+  }
   componentWillMount() {
     if (this.props.user) {
       this.props.pushState(null, '/dashboard');

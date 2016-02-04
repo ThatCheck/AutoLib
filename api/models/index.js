@@ -33,4 +33,10 @@ Object.keys(db).forEach(function(modelName) {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+
+db.client.hasMany(db.utilise, {foreignKey: 'Client'});
+db.client.hasMany(db.reservation, {foreignKey: 'Client'});
+db.station.hasMany(db.borne, {foreignKey: 'idBorne'});
+db.borne.belongsTo(db.station, {foreignKey: 'station', as: 'Station'});
+
 module.exports = db;

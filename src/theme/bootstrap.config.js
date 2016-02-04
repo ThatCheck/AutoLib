@@ -21,7 +21,7 @@ module.exports = {
     button: false,
     carousel: false,
     collapse: false,
-    dropdown: false,
+    dropdown: true,
     modal: false,
     tooltip: false,
     popover: false,

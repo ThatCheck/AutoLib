@@ -8,10 +8,25 @@ import {reducer as form} from 'redux-form';
  */
 import auth from './auth';
 import registerReducer from './register';
+import user from './user';
+import homeDashboard from './homeDashboard';
+import booking from './booking';
+import client from './client';
+import use from './use';
+import borne from './borne';
+import station from './station';
+import car from './car';
 
 export default combineReducers({
   router: routerStateReducer,
   auth,
   form,
-  register: registerReducer
+  users: user,
+  register: registerReducer,
+  booking: booking,
+  client: client,
+  use: use,
+  station: station,
+  borne: borne,
+  car: car
 });

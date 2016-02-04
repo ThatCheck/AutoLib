@@ -56,11 +56,12 @@ module.exports = {
       'style!css!./node_modules/ladda/dist/ladda-themeless.min.css',
       'style!css!./node_modules/animate.css/animate.min.css',
       'style!css!./node_modules/metismenu/dist/metisMenu.min.css',
+      'style!css!./node_modules/fixed-data-table/dist/fixed-data-table.css',
+      './node_modules/immutable/dist/immutable.js',
       './node_modules/jquery/dist/jquery.js',
       './node_modules/metismenu/dist/metisMenu.js',
       './src/theme/autolib.js',
       './src/client.js',
-
     ]
   },
   output: {

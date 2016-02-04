@@ -4,3 +4,6 @@ export Login from './Login/Login';
 export Register from './Register/Register';
 export Dashboard from './Dashboard/Dashboard';
 export HomeDashboard from './HomeDashboard/HomeDashboard';
+export DatatableClient from './Client/DatatableClient';
+export ShowClient from './Client/ShowClient';
+export Map from './Map/Map';
