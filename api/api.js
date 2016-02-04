@@ -6,15 +6,15 @@ import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
 import passport from 'passport';
-import pass from 'config/passport.js';
-import db from 'models/index';
+import pass from './config/passport.js';
+import db from './models/index';
 import i18n from 'i18n';
 import morgan from 'morgan';
-import routes from 'routes/index.js';
+import routes from './routes/index.js';
 import validate from 'validate.js';
-import i18n_middleware from 'middleware/i18n_middleware';
+import i18n_middleware from './middleware/i18n_middleware';
 import epilogue from 'epilogue';
-import * as Controller from 'controllers/index.js';
+import * as Controller from './controllers/index.js';
 import redis from 'redis';
 
 validate.validators.presence.options = {
