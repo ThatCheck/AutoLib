@@ -6,6 +6,7 @@ import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
 import passport from 'passport';
+import pass from 'config/passport.js';
 import db from 'models/index';
 import i18n from 'i18n';
 import morgan from 'morgan';
