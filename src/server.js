@@ -21,6 +21,7 @@ import {Provider} from 'react-redux';
 import qs from 'query-string';
 import getRoutes from './routes';
 import getStatusFromRoutes from './helpers/getStatusFromRoutes';
+import BodyClassName from 'react-body-classname';
 
 /**
  * Flatten the message locales
@@ -103,7 +104,7 @@ app.use((req, res) => {
     // hot module replacement is enabled in the development env
     webpackIsomorphicTools.refresh();
   }
-
+  BodyClassName.rewind();
   const lang = cookie.load('locale') || 'fr';
   const localeFromRoute = getCurrentLocale(lang);
   const locale = intlDataHash[localeFromRoute].locale;

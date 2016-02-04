@@ -5,7 +5,7 @@ import BodyClassName from 'react-body-classname';
 import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
 import { connect } from 'react-redux';
-import {Input, Label, Tabs, Tab} from 'react-bootstrap';
+import {Input, Label, Tabs, Tab, Button} from 'react-bootstrap';
 import connectData from 'helpers/connectData';
 import { pushState } from 'redux-router';
 import {FormattedMessage} from 'react-intl';
@@ -13,10 +13,9 @@ import moment from 'moment';
 import GoogleMap from 'google-map-react';
 import {list, isLoaded} from 'redux/modules/station';
 import {list as listCar, isLoaded as isLoadedCar, updatePosition} from 'redux/modules/car';
-import {Marker} from 'components';
+import {Marker, SearchBox} from 'components';
 import { Scrollbars } from 'react-custom-scrollbars';
 import jQuery from 'jquery';
-
 function fetchData(getState, dispatch) {
   const promises = [];
 
@@ -132,7 +131,6 @@ export default class Map extends Component {
               {this.state.showCars === true ? CarsMarkers : []}
             </GoogleMap>
           <div className={style.filter}>
-            <h2><FormattedMessage id="dashboard.map.filter"/></h2>
               <Tabs defaultActiveKey={2}>
                 <Tab eventKey={1} title="Vue Général">
                   <Input type="checkbox" label="Voir toutes les stations." onChange={this._handleChangeStations.bind(this)} checked={this.state.showStations === true ? 'checked' : null}/>
@@ -145,7 +143,11 @@ export default class Map extends Component {
                   </div>
                 </Tab>
                 <Tab eventKey={2} title="Itinéraire">
-
+                  <div className="m-t-sm">
+                    <SearchBox label="Lieu de départ"/>
+                    <SearchBox label="Lieu d'arrivé"/>
+                    <Button className="pull-right" bsStyle="success">Calculer un itinéraire</Button>
+                  </div>
                 </Tab>
               </Tabs>
           </div>

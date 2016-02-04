@@ -9,3 +9,4 @@ export Topbar from './Topbar/Topbar';
 export ClientLinkComponent from './Griddle/ClientLinkComponent';
 export DateComponent from './Griddle/DateComponent';
 export Marker from './Map/Marker';
+export SearchBox from './Map/SearchBox';
