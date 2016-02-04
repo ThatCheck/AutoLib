@@ -11,7 +11,7 @@ const BookingController = {
   configureRestService: function configure(epilogue) {
     const bookingResource = epilogue.resource({
       model: db.reservation,
-      endpoints: ['/bookings', '/bookings/:id']
+      endpoints: ['/bookings', '/bookings/:idBooking']
     });
   }
 };

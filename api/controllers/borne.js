@@ -11,7 +11,7 @@ const BorneController = {
   configureRestService: function configure(epilogue) {
     const borneResource = epilogue.resource({
       model: db.borne,
-      endpoints: ['/bornes', '/bornes/:id']
+      endpoints: ['/bornes', '/bornes/:idBorne']
     });
   }
 };

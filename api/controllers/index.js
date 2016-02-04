@@ -5,6 +5,7 @@ import UseController from './use';
 import BorneController from './borne';
 import StationController from './station';
 import CarController from './car';
+import MapsController from './maps';
 export default {
   UserController,
   BookingController,
@@ -12,5 +13,6 @@ export default {
   UseController,
   BorneController,
   StationController,
-  CarController
+  CarController,
+  MapsController
 };

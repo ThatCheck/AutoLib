@@ -11,7 +11,7 @@ const VehiculeController = {
   configureRestService: function configure(epilogue) {
     const vehiculeResource = epilogue.resource({
       model: db.vehicule,
-      endpoints: ['/cars', '/cars/:id']
+      endpoints: ['/cars', '/cars/:idCar']
     });
   }
 };

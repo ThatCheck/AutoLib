@@ -11,7 +11,7 @@ const ClientController = {
   configureRestService: function configure(epilogue) {
     const clientResource = epilogue.resource({
       model: db.client,
-      endpoints: ['/clients', '/clients/:id'],
+      endpoints: ['/clients', '/clients/:idClient'],
       include: [
         {
           model: db.utilise,

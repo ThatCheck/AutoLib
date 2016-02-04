@@ -11,7 +11,7 @@ const UseController = {
   configureRestService: function configure(epilogue) {
     const UseResource = epilogue.resource({
       model: db.utilise,
-      endpoints: ['/use', '/use/:id'],
+      endpoints: ['/use', '/use/:idUse'],
     });
   }
 };
