@@ -50,7 +50,7 @@ export function isLoaded(state) {
 
 export function list() {
   return {
-    types: [STATE.USER_LOAD, STATE.USER_SUCCESS, STATE.USER_FAIL],
+    types: [STATE.USE_SINGLE_LOAD, STATE.USE_SINGLE_SUCCESS, STATE.USE_SINGLE_FAIL],
     promise: (client) => client.get('/use')
   };
 }

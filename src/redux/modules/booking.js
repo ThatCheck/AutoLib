@@ -6,6 +6,7 @@ export const STATE = {
   BOOKING_LOAD: '@@autolib/booking/BOOKING_LOAD',
   BOOKING_SUCCESS: '@@autolib/booking/BOOKING_SUCCESS',
   BOOKING_FAIL: '@@autolib/booking/BOOKING_FAIL',
+  BOOKING_ADD_SUCCESS: '@@autolib/booking/BOOKING_ADD_SUCCESS',
 };
 
 const initialState = {
@@ -39,6 +40,13 @@ export default function registerReducer(state = initialState, action = {}) {
         loaded: true
       };
     }
+    case STATE.BOOKING_ADD_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        loaded: true
+      };
+    }
     default:
       return state;
   }
@@ -52,5 +60,19 @@ export function list() {
   return {
     types: [STATE.BOOKING_LOAD, STATE.BOOKING_SUCCESS, STATE.BOOKING_FAIL],
     promise: (client) => client.get('/bookings')
+  };
+}
+
+export function add(vehicule, clientData, dateReservation, dateEcheance) {
+  return {
+    types: [STATE.BOOKING_LOAD, STATE.BOOKING_ADD_SUCCESS, STATE.BOOKING_FAIL],
+    promise: (client) => client.post('/bookings', {
+      data: {
+        vehicule: vehicule,
+        client: clientData,
+        date_reservation: dateReservation,
+        date_echeance: dateEcheance
+      }
+    })
   };
 }

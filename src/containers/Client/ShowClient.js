@@ -9,6 +9,7 @@ import {Input} from 'react-bootstrap';
 import { pushState } from 'redux-router';
 import {FormattedMessage} from 'react-intl';
 import moment from 'moment';
+import lodash from 'lodash';
 
 @connect(state => ({user: state.auth.user, client: state.client}), {pushState})
 export default class ShowClient extends Component {
@@ -26,6 +27,24 @@ export default class ShowClient extends Component {
     const client = this.props.client.clients.find(function findUserId(obj) {
       return obj.get('idClient') === Number(params.userId);
     });
+    const allArray = client.utilises.concat(client.reservations);
+    allArray.sort(function sort(a1, b1) {
+      // Turn your strings into dates, and then subtract them
+      // to get a value that is either negative, positive, or zero.
+      return new Date(b1.createdAt) - new Date(a1.createdAt);
+    });
+    console.log(allArray);
+    const result = allArray.map((data, index) => (
+      <div className="vertical-timeline-block">
+        <div className="vertical-timeline-icon navy-bg">
+          <i className="fa fa-briefcase"></i>
+        </div>
+        <div className="vertical-timeline-content">
+          <h2>{data.borne_depart === undefined ? 'Reservation' : 'Utilisation'}</h2>
+          <span className="vertical-date"> {moment(data.createdAt).format('LL')} </span>
+        </div>
+      </div>
+    ));
     return (
       <div className="wrapper wrapper-content animated fadeInRight">
         <div className="row m-b-lg m-t-lg">
@@ -68,6 +87,11 @@ export default class ShowClient extends Component {
               </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+        <div className="" id="ibox-content">
+          <div id="vertical-timeline" className="vertical-container light-timeline center-orientation">
+            {result}
           </div>
         </div>
       </div>

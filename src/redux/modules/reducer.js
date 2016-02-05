@@ -16,6 +16,7 @@ import use from './use';
 import borne from './borne';
 import station from './station';
 import car from './car';
+import maps from './maps';
 
 export default combineReducers({
   router: routerStateReducer,
@@ -28,5 +29,6 @@ export default combineReducers({
   use: use,
   station: station,
   borne: borne,
-  car: car
+  car: car,
+  maps: maps
 });

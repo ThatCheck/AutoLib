@@ -11,7 +11,7 @@ const StationController = {
   configureRestService: function configure(epilogue) {
     const StationResource = epilogue.resource({
       model: db.station,
-      endpoints: ['/stations', '/stations/:idStation'],
+      endpoints: ['/stations', '/stations/:id'],
       include: [
         {
           model: db.borne,

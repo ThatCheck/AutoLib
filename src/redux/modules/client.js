@@ -31,7 +31,7 @@ export default function registerReducer(state = initialState, action = {}) {
       };
     }
     case STATE.CLIENT_SUCCESS: {
-      const user = Immutable.fromJS(action.result).map(data => new ClientRecord(data)).toArray();
+      const user = Immutable.fromJS(action.result).map(data => new ClientRecord(data));
       return {
         ...state,
         clients: user,

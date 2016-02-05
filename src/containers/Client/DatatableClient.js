@@ -12,6 +12,8 @@ import {list, isLoaded} from 'redux/modules/client';
 import {FormattedMessage} from 'react-intl';
 import Griddle from 'griddle-react';
 import {ClientLinkComponent, DateComponent} from 'components';
+import moment from 'moment';
+import randomColor from 'utils/random-color';
 
 function fetchData(getState, dispatch) {
   const promises = [];
@@ -35,40 +37,38 @@ export default class DatatableClient extends Component {
   constructor() {
     super();
   }
+
+  _handleClick(id) {
+    this.props.pushState(null, '/dashboard/clients/' + id.toString());
+  }
   render() {
-    const {client} = this.props;
-    const rows = client.clients;
-    const columnMeta = [
-      {
-        'columnName': 'idClient',
-        'order': 1,
-        'locked': false,
-        'visible': true,
-        'customComponent': ClientLinkComponent
-      },
-      {
-        'columnName': 'date_naissance',
-        'order': 4,
-        'locked': false,
-        'visible': true,
-        'customComponent': DateComponent
-      }
-    ];
-    return (
-      <div className="wrapper wrapper-content animated fadeInRight">
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="ibox float-e-margins">
-              <div className="ibox-title">
-                <h5><FormattedMessage id="dashboard.manage.client.header"/></h5>
-              </div>
-              <div className="ibox-content">
-                <Griddle results={rows} columnMetadata={columnMeta} tableClassName="table table-striped table-bordered table-hover" showFilter showSettings resultsPerPage={10} enableInfiniteScroll bodyHeight={400} columns={['idClient', 'nom', 'prenom', 'date_naissance']}/>
-              </div>
-            </div>
-          </div>
+    const clientsData = this.props.client.clients.map((clientMap, index) => (
+      <div className="col-lg-6" onClick={this._handleClick.bind(this, clientMap.idClient)}>
+        <div className="widget lazur-bg p-xl">
+          <h2>
+            {clientMap.nom} {clientMap.prenom}
+          </h2>
+          <ul className="list-unstyled m-t-md">
+            <li>
+              <span className="fa fa-birthday-cake m-r-xs"></span>
+              <label>Anniversaire: </label>
+              {moment(clientMap.date_naissance).format('LL')}
+            </li>
+            <li>
+              <span className="fa fa-star m-r-xs"></span>
+              <label>Date de création: </label>
+              {moment(clientMap.createdAt).format('LL')}
+            </li>
+          </ul>
         </div>
       </div>
+    ));
+    return (
+      <BodyClassName>
+        <div className="wrapper wrapper-content animated fadeInRight">
+          {clientsData}
+        </div>
+      </BodyClassName>
     );
   }
 }
