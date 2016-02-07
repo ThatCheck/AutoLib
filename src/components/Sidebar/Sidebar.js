@@ -52,16 +52,14 @@ export default class Sidebar extends Component {
               </LinkContainer>
             </li>
             <li>
-              <a href="#"><i className="fa fa-bar-chart-o"></i> <span className="nav-label">Graphs</span><span className="fa arrow"></span></a>
-              <ul className="nav nav-second-level collapse">
-                <li><a href="graph_flot.html">Flot Charts</a></li>
-                <li><a href="graph_morris.html">Morris.js Charts</a></li>
-                <li><a href="graph_rickshaw.html">Rickshaw Charts</a></li>
-                <li><a href="graph_chartjs.html">Chart.js</a></li>
-                <li><a href="graph_chartist.html">Chartist</a></li>
-                <li><a href="graph_peity.html">Peity Charts</a></li>
-                <li><a href="graph_sparkline.html">Sparkline Charts</a></li>
-              </ul>
+              <LinkContainer to="/dashboard/stations">
+                <a><i className="fa fa-automobile"></i> <span className="nav-label">Stations</span></a>
+              </LinkContainer>
+            </li>
+            <li>
+              <LinkContainer to="/dashboard/cars">
+                <a><i className="fa fa-car"></i> <span className="nav-label">Voiture</span></a>
+              </LinkContainer>
             </li>
           </ul>
         </div>

@@ -8,16 +8,35 @@ import { connect } from 'react-redux';
 import {Input} from 'react-bootstrap';
 import { pushState } from 'redux-router';
 import {bsStyle} from 'utils/bsValidator.js';
+import {list} from 'redux/modules/car';
 import {Sidebar, Topbar} from 'components';
 
-@connect(state => ({user: state.auth.user}), {pushState})
+@connect(state => ({user: state.auth.user}), {list, pushState})
 export default class Dashboard extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
-    pushState: PropTypes.func.isRequired
+    pushState: PropTypes.func.isRequired,
+    list: PropTypes.func
   };
+
   constructor() {
     super();
+  }
+
+  componentDidMount() {
+    if (socket) {
+      socket.on('car_status', this.onMessageReceived);
+    }
+    document.getElementById('page-wrapper').style.position = 'relative';
+  }
+
+  componentWillUnmount() {
+    if (socket) {
+      socket.removeListener('car_status', this.onMessageReceived);
+    }
+  }
+  onMessageReceived = (data) => {
+    this.props.list();
   }
   render() {
     return (

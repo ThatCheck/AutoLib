@@ -11,7 +11,7 @@ import {FormattedMessage} from 'react-intl';
 import moment from 'moment';
 import GoogleMap from 'google-map-react';
 import {list, isLoaded} from 'redux/modules/station';
-import {add} from 'redux/modules/booking';
+import {add, list as listBooking} from 'redux/modules/booking';
 import {list as listCar, isLoaded as isLoadedCar} from 'redux/modules/car';
 import {found} from 'redux/modules/maps';
 import {Marker, SearchBox} from 'components';
@@ -25,7 +25,7 @@ import NotificationSystem from 'react-notification-system';
   form: 'booking',
   fields: ['client', 'vehicule', 'dateDebut', 'dateFin']
 })
-@connect(state => ({user: state.auth.user, client: state.client, station: state.station, borne: state.borne, booking: state.booking}), {add})
+@connect(state => ({user: state.auth.user, client: state.client, station: state.station, borne: state.borne, booking: state.booking}), {add, listBooking})
 export default class Booking extends Component {
 
   static propTypes = {
@@ -39,7 +39,8 @@ export default class Booking extends Component {
     add: PropTypes.func,
     values: PropTypes.object,
     notificationSystem: PropTypes.object,
-    close: PropTypes.func
+    close: PropTypes.func,
+    listBooking: PropTypes.func
   };
 
   constructor() {
@@ -54,6 +55,7 @@ export default class Booking extends Component {
           message: 'Votre réservation à bien été prise en compte',
           level: 'success'
         });
+        this.props.listBooking();
         this.props.close();
         resolve();
       });

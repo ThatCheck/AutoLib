@@ -51,9 +51,9 @@ export default class App extends Component {
     };
   }
   componentWillMount() {
-    if (this.props.user) {
+    /* if (this.props.user) {
       this.props.pushState(null, '/dashboard');
-    }
+    }*/
   }
 
   componentWillReceiveProps(nextProps) {

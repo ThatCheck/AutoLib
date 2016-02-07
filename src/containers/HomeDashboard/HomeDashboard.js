@@ -84,11 +84,11 @@ export default class HomeDashboard extends Component {
     const bookingData = this.props.booking.bookings.map((booking, index) => (
       <tr>
         <td>
-          <span className="label label-success">En attente</span>
+          { moment(booking.createdAt) > moment() ? <span className="label label-success">En attente</span> : <span className="label label-primary">Utilisé</span> }
         </td>
         <td>
           <i className="fa fa-clock-o"></i> {moment(booking.createdAt).format('LL')}</td>
-        <td>{booking.Vehicule}</td>
+        <td>{booking.vehicule}</td>
       </tr>
     ));
     return (

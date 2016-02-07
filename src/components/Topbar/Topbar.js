@@ -6,7 +6,7 @@ import {reduxForm} from 'redux-form';
 import { connect } from 'react-redux';
 import {Input, Dropdown, MenuItem} from 'react-bootstrap';
 import { pushState } from 'redux-router';
-
+import reactCookie from 'react-cookie';
 @connect(state => ({user: state.auth.user}), {pushState})
 export default class Topbar extends Component {
 
@@ -19,6 +19,12 @@ export default class Topbar extends Component {
     super();
   }
 
+  _handleChangeLocale(language) {
+    reactCookie.save('locale', language, {
+      path: '/',
+      maxAge: 10000000
+    });
+  }
   render() {
     const {user} = this.props;
     return (
@@ -26,66 +32,22 @@ export default class Topbar extends Component {
         <nav className="navbar navbar-static-top white-bg" role="navigation" style={{marginBottom: 0}}>
           <div className="navbar-header">
             <a className="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i className="fa fa-bars"></i> </a>
-            <form role="search" className="navbar-form-custom" action="search_results.html">
-              <div className="form-group">
-                <input type="text" placeholder="Search for something..." className="form-control" name="top-search" id="top-search" />
-              </div>
-            </form>
           </div>
           <ul className="nav navbar-top-links navbar-right">
             <li>
-              <span className="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+              <span className="m-r-sm text-muted welcome-message"></span>
             </li>
             <li className="dropdown">
               <a className="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                <i className="fa fa-envelope"></i> <span className="label label-warning">16</span>
+                <i className="fa fa-language"></i> <span className="label label-success">2</span>
               </a>
               <ul className="dropdown-menu dropdown-messages">
-                <li>
-                  <div className="dropdown-messages-box">
-                    <a href="profile.html" className="pull-left">
-                      <img alt="image" className="img-circle" src="img/a7.jpg" />
-                    </a>
-                    <div>
-                      <small className="pull-right">46h ago</small>
-                      <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br />
-                      <small className="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
-                    </div>
-                  </div>
+                <li onClick={this._handleChangeLocale.bind(this, 'fr')}>
+                  FR
                 </li>
                 <li className="divider"></li>
-                <li>
-                  <div className="dropdown-messages-box">
-                    <a href="profile.html" className="pull-left">
-                      <img alt="image" className="img-circle" src="img/a4.jpg" />
-                    </a>
-                    <div>
-                      <small className="pull-right text-navy">5h ago</small>
-                      <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br />
-                      <small className="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
-                    </div>
-                  </div>
-                </li>
-                <li className="divider"></li>
-                <li>
-                  <div className="dropdown-messages-box">
-                    <a href="profile.html" className="pull-left">
-                      <img alt="image" className="img-circle" src="img/profile.jpg" />
-                    </a>
-                    <div>
-                      <small className="pull-right">23h ago</small>
-                      <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br />
-                      <small className="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
-                    </div>
-                  </div>
-                </li>
-                <li className="divider"></li>
-                <li>
-                  <div className="text-center link-block">
-                    <a href="mailbox.html">
-                      <i className="fa fa-envelope"></i> <strong>Read All Messages</strong>
-                    </a>
-                  </div>
+                <li onClick={this._handleChangeLocale.bind(this, 'en')}>
+                  EN
                 </li>
               </ul>
             </li>
@@ -130,13 +92,6 @@ export default class Topbar extends Component {
                   </div>
                 </li>
               </ul>
-            </li>
-
-
-            <li>
-              <a href="login.html">
-                <i className="fa fa-sign-out"></i> Log out
-              </a>
             </li>
             <li>
               <a className="right-sidebar-toggle">

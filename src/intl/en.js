@@ -2,7 +2,7 @@ export default {
   'dashboard': {
     'home': {
       'title': 'Bienvenue sur le dashboard d\'Autolib +',
-      'number_client': 'Nombre de clients'
+      'number_client': 'Client number'
     },
   },
 };

@@ -10,7 +10,10 @@ import {
     HomeDashboard,
     DatatableClient,
     ShowClient,
-    Map
+    Map,
+    StationDatatables,
+    Station,
+    Car
   } from 'containers';
 
 export default (store) => {
@@ -41,7 +44,10 @@ export default (store) => {
         <IndexRoute component={HomeDashboard}/>
         <Route path="clients" component={DatatableClient}/>
         <Route path="clients/:userId" component={ShowClient}/>
+        <Route path="stations" component={StationDatatables}/>
+        <Route path="stations/:stationId" component={Station}/>
         <Route path="map" component={Map}/>
+        <Route path="cars" component={Car}/>
       </Route>
       <IndexRoute component={Home}/>
       <Route path="/login" component={Login}/>

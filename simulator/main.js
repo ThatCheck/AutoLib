@@ -27,6 +27,7 @@ async function iterate() {
       etatBorne: 0,
       idVehicule: currentUsedCar.idVehicule
     });
+    client.publish('car_status', 'end');
     return;
   }
 

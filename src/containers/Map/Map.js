@@ -92,6 +92,9 @@ export default class Map extends Component {
 
   onMessageReceived = (data) => {
     console.log('Message received from car_status update on redis => ' + data);
+    if (data === 'end') {
+      return;
+    }
     const dataSplit = data.split('|');
     this.props.updatePosition(dataSplit[0], dataSplit[2], dataSplit[1]);
   }
@@ -210,7 +213,7 @@ export default class Map extends Component {
               <Modal.Title>Faire une réservation</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Booking close={this._close} notificationSystem={this.refs.notificationSystem} idSelectedStation={this.props.maps.from && this.props.maps.from.Station.idStation}/>
+              <Booking close={this._close.bind(this)} notificationSystem={this.refs.notificationSystem} idSelectedStation={this.props.maps.from && this.props.maps.from.Station.idStation}/>
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={this._close.bind(this)}>Fermer</Button>
